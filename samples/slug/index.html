@@ -1,15 +1,105 @@
-<!doctype html>
+<!DOCTYPE html>
 <head>
-  <link href="https://static.contentful.com/app/main-62e0abc7.css" media="all" rel="stylesheet" type="text/css">
-  <link href="https://static.contentful.com/app/vendor-976872d7.css" media="all" rel="stylesheet" type="text/css">
-  <link href="https://contentful.github.io/ui-extensions-sdk/cf-extension.css" media="all" rel="stylesheet" type="text/css">
-  <script type="text/javascript" src="https://contentful.github.io/ui-extensions-sdk/cf-extension-api.js"></script>
+    <link href="https://static.contentful.com/app/main-62e0abc7.css" media="all" rel="stylesheet" type="text/css">
+    <link href="https://static.contentful.com/app/vendor-976872d7.css" media="all" rel="stylesheet" type="text/css">
+    <link href="https://contentful.github.io/ui-extensions-sdk/cf-extension.css" media="all" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="https://contentful.github.io/ui-extensions-sdk/cf-extension-api.js"></script>
+    <style>
+        .slug-status {
+            position: relative;
+            display: inline-block;
+            width: 50%;
+            margin-bottom: 20px;
+        }
+        .slug-icons {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+            padding: 0 15px;
+            border: 1px solid #b4c3ca;
+            min-width: 44px;
+        }
+        i.fa {
+            display: none;
+        }
+        i {
+            margin: 0!important;
+            line-height: 41px!important;
+        }
+        .warning {
+            margin: -10px 0 10px;
+            display: none;
+            color: #d9453f;
+        }
+        .slug-input {
+            border: 1px solid #c3cfd5;
+            background-color: #f7f9fa;
+            padding: 12px 10px;
+            border-radius: 2px;
+            width: 50%;
+        }
+        .slug-input.disabled {
+            width: 100%;
+            background-color: #d3dce0;
+            border-color: #b4c3ca;
+        }
+        button {
+            margin-left: 10px;
+            font-size: .875rem;
+            border: 1px solid #c3cfd5;
+            border-radius: 2px;
+            line-height: 18px;
+            color: #536171;
+            background: #e5ebed;
+            display: inline-block;
+            padding: .625rem 0.8rem;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #d3dce0;
+            border-color: #b4c3ca;
+        }
+
+        .duplicate-list {
+            display: none;
+            margin: 0 0 20px 20px;
+        }
+        .duplicate-item {
+            font-weight: bold;
+            list-style-type: disc;
+        }
+        .duplicate-item a {
+            color: #bb2b25;
+        }
+        .a-external-link {
+            display: inline-block;
+        }
+    </style>
 </head>
+
 <div class="widget-slug-editor">
-  <input id="slug" type="text" class="form-control" style="width: 98%; font-size: 14px">
-  <i id="error" class="fa fa-exclamation-triangle is-slug-duplicate"></i>
-  <i id="ok" class="fa fa-check-circle is-slug-unique"></i>
-  <i id="loading" class="fa fa-spinner fa-spin"></i>
+    <div class="slug-wrapper">
+        <div class="slug-status">
+            <input id="slugGenerated" type="text" class="slug-input disabled" disabled required />
+            <div class="slug-icons">
+                <i id="error" class="fa fa-exclamation-triangle is-slug-duplicate"></i>
+                <i id="ok" class="fa fa-check-circle is-slug-unique"></i>
+                <i id="loading" class="fa fa-spinner fa-spin"></i>
+            </div>
+        </div>
+        <button id="generateSlug" type="button">Get URL from field</button>
+        <span id="warningMessage" class="warning"></span>
+        <ul id="duplicate" class="duplicate-list">
+        </ul>
+    </div>
+
+    <input id="slug" type="text" class="slug-input" />
+    <button id="makeSlug" type="button">Manually generate URL</button>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/3.0.2/es6-promise.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.js"></script>
